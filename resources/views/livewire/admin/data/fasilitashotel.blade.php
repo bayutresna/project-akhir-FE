@@ -5,8 +5,18 @@
     facilities: [],
     toggle: '0',
     respon: '',
+
+    deletefacility(id){
+        const respon = fetch(`http://127.0.0.1:8000/api/fasilitashotel/delete/${id}`,{
+            method: 'POST'
+        })
+        .then(async (response) => {
+            window.location.replace('http://127.0.0.1:8001/admin/fasilitashotel')
+        });
+    },
+
     getfacility(){
-        const respon = fetch('http://127.0.0.1:8000/api/reservasikamar')
+        const respon = fetch('http://127.0.0.1:8000/api/fasilitashotel')
         .then(async (response) => {
         this.facility = await response.json()
         this.facilities = this.facility.data
@@ -27,28 +37,29 @@ x-init = "getfacility()">
         </tr>
     </thead>
     <tbody>
+        <template x-for="fasilitas in facilities">
         <tr class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Nama</span>
-                <span x-text=""></span>
+                <span x-text="fasilitas.nama"></span>
             </td>
 
             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Deskripsi</span>
-                <span x-text=""></span>
+                <span x-text="fasilitas.deskripsi"></span>
             </td>
             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Foto</span>
-                <span x-text=""></span>
+                <img :src="fasilitas.foto" alt="">
             </td>
             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Aksi</span>
                 {{-- isi tabel --}}
-                <a href="#" class="text-blue-400 hover:text-blue-600 underline">Edit</a>
-                <a href="#" class="text-blue-400 hover:text-blue-600 underline pl-6">Remove</a>
+                <a :href="`fasilitashotel/update/${fasilitas.id}`" class="text-blue-400 hover:text-blue-600 underline">Edit</a>
+                <button x-on:click="deletefacility(fasilitas.id)" class="text-blue-400 hover:text-blue-600 underline pl-6">Remove</button>
             </td>
-
         </tr>
+    </template>
     </tbody>
 </table>
 </div>

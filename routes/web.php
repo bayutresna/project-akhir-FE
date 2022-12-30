@@ -5,6 +5,9 @@ use App\Http\Livewire\Admin\Dashboard;
 use App\Http\Livewire\Admin\galeriadmin;
 use App\Http\Livewire\Admin\Fasilitashotel;
 use App\Http\Livewire\Admin\Kamar;
+use App\Http\Livewire\Admin\Update\Fasilitashotelupdate;
+use App\Http\Livewire\Admin\Update\Galeriupdate;
+use App\Http\Livewire\Admin\Update\Kamarupdate;
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Page\Fasilitas;
@@ -39,8 +42,12 @@ Route::get('/galeri', Galeri::class)->name('galeri');
 
 Route::get('admin', Dashboard::class)->name('admin');
 Route::get('admin/kamar', Kamar::class)->name('admin.kamar');
+Route::get('admin/kamar/update/{kamar_id}', Kamarupdate::class)->name('admin.kamarupdate');
 Route::get('admin/galeri', galeriadmin::class)->name('admin.galeri');
+Route::get('admin/galeri/update/{picture_id}', Galeriupdate::class)->name('admin.galeriupdate');
 Route::get('admin/fasilitashotel', Fasilitashotel::class)->name('admin.fasilitashotel');
+Route::get('admin/fasilitashotel/update/{fasilitas_id}', Fasilitashotelupdate::class)->name('admin.fasilitashotelupdate');
+
 
 
 

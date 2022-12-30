@@ -11,7 +11,15 @@
         this.room = await response.json()
         this.rooms = this.room.data
         });
-    }
+    },
+    deletekamar(id){
+        const respon = fetch(`http://127.0.0.1:8000/api/kamar/delete/${id}`,{
+            method: 'POST'
+        })
+        .then(async (response) => {
+            window.location.replace('http://127.0.0.1:8001/admin/kamar')
+        });
+    },
     }))
 </script>
 <div
@@ -39,7 +47,7 @@ x-init = "getroom()">
             </td>
             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Tipe Kamar</span>
-                <span x-text="kamar.tipekamar.nama"></span>
+                <span x-text="kamar.tipe.nama"></span>
             </td>
             <td class="w-full lg:w-auto p-3 text-gray-800  border border-b text-center block lg:table-cell relative lg:static">
                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Harga</span>
@@ -64,8 +72,8 @@ x-init = "getroom()">
             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Aksi</span>
                 {{-- isi tabel --}}
-                <a href="#" class="text-blue-400 hover:text-blue-600 underline">Edit</a>
-                <a href="#" class="text-blue-400 hover:text-blue-600 underline pl-6">Remove</a>
+                <a :href="`kamar/update/${kamar.id}`" class="text-blue-400 hover:text-blue-600 underline">Edit</a>
+                <button x-on:click="deletekamar(kamar.id)" class="text-blue-400 hover:text-blue-600 underline pl-6">Remove</button>
             </td>
 
         </tr>

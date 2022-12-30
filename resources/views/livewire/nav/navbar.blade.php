@@ -3,15 +3,32 @@
         isOpen: false,
         islogin: false,
 
+    //     async logout(){
+
+    //     let token = localStorage.getItem('token');
+    //     await fetch('http://127.0.0.1:8000/api/logout',[
+    //         header:{'Authorization' : token},    
+    //         method: 'POST',
+            
+    //     ]);
+
+    // },
+
+    async logout(){
+        const token = localStorage.getItem('token')
+        const respon = await fetch('http://127.0.0.1:8000/api/logout',{
+        header:{'Authorization' : token},    
+        method: 'POST'
+        })
+        localStorage.clear()
+        window.location.replace('http://127.0.0.1:8001/')
+    },
+
     ceklogin(){
     const token = localStorage.getItem('token')
     this.islogin = token ? true : false
-    },
-
-    async logout(){
-        await localStorage.clear()
-        window.location.replace('http://127.0.0.1:8001/')
     }
+
         }))
 
 </script>

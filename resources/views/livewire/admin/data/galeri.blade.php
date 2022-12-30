@@ -5,6 +5,17 @@
     galeries: [],
     toggle: '0',
     respon: '',
+    files:'',
+
+    deletegaleri(id){
+        const respon = fetch(`http://127.0.0.1:8000/api/galeri/delete/${id}`,{
+            method: 'POST'
+        })
+        .then(async (response) => {
+            window.location.replace('http://127.0.0.1:8001/admin/galeri')
+        });
+    },
+
     getgaleri(){
         const respon = fetch('http://127.0.0.1:8000/api/galeri')
         .then(async (response) => {
@@ -33,11 +44,14 @@ x-init = "getgaleri()">
             </td>
             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Aksi</span>
-                <a href="#" class="text-blue-400 hover:text-blue-600 underline">Edit</a>
-                <a href="#" class="text-blue-400 hover:text-blue-600 underline pl-6">Remove</a>
+                <a :href="`galeri/update/${picture.id}`" class="text-blue-400 hover:text-blue-600 underline">Edit</a>
+                <button @click="deletegaleri(picture.id)" class="text-blue-400 hover:text-blue-600 underline pl-6">Remove</button>
             </td>
         </tr>
         </template>
     </tbody>
 </table>
 </div>
+
+
+

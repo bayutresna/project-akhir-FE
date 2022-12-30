@@ -27,7 +27,9 @@ x-init = "getorder()">
             <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Extra Bed</th>
             <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Bukti Pembayaran</th>
             <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Metode Pembayaran</th>
+            <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Total Biaya </th>
             <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">Status Transaksi </th>
+
         </tr>
     </thead>
     <tbody>
@@ -62,6 +64,10 @@ x-init = "getorder()">
                 <span class="rounded bg-red-400 py-1 px-3 text-xs font-bold">deleted</span>
                 <span class="rounded bg-yellow-400 py-1 px-3 text-xs font-bold">inactive</span>
                 <span class="rounded bg-green-400 py-1 px-3 text-xs font-bold">active</span>
+            </td>
+            <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Total Biaya</span>
+                <span x-text=""></span>
             </td>
             <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                 <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Status Transaksi</span>

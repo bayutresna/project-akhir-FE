@@ -1,16 +1,13 @@
 <script>
     Alpine.data("skadi", () => ({
         show: false,
-        payload:{email: '',password: ''},
         pict: [],
         pictures: [],
         toggle: '0',
         respon: '',
 
         getpict(){
-            const data = new FormData()
-            data.append('email', this.payload.email)
-            data.append('password', this.payload.password)
+
             const respon = fetch('http://127.0.0.1:8000/api/galeri')
             .then(async (response) => {
             this.pict = await response.json()

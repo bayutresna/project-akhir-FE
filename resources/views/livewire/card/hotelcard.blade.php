@@ -1,14 +1,33 @@
-<div>
-      <div class="flex justify-center">
-        <div class="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg">
-          <img class=" w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg" src="https://mdbootstrap.com/wp-content/uploads/2020/06/vertical.jpg" alt="" />
-          <div class="p-6 flex flex-col justify-start">
-            <h5 class="text-gray-900 text-xl font-medium mb-2">Card title</h5>
-            <p class="text-gray-700 text-base mb-4">
-              This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-            </p>
-            <p class="text-gray-600 text-xs">Last updated 3 mins ago</p>
+<script>
+    Alpine.data("skadi", () => ({
+    show: false,
+    room: [],
+    rooms: [],
+    respon: '',
+    getroom(){
+        const respon = fetch('http://127.0.0.1:8000/api/kamar')
+        .then(async (response) => {
+        this.room = await response.json()
+        this.rooms = this.room.data
+        });
+    }
+    }))
+</script>
+<div x-data='skadi' x-init="getroom()">
+    
+        <div class="flex flex-wrap gap-10 justify-center">
+            <template x-for="r in rooms">
+            <div class="rounded-lg shadow-lg bg-white max-w-sm">
+                <img class="rounded-t-lg" :src="r.foto" alt=""/>
+              </a>
+              <div class="p-6">
+                <h5 x-text="r.nama" class="text-gray-900 text-xl font-medium mb-2"></h5>
+                <p x-text="r.deskripsi" class="text-gray-700 text-base mb-4">
+                </p>
+                <button type="button" class=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Detail</button>
+              </div>
+            </div>
+        </template>
           </div>
-        </div>
-      </div>
+    
 </div>

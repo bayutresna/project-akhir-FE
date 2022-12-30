@@ -10,7 +10,7 @@
     <div class=" py-10 font-[700] text-[35px] text-center  ">
         <h1>Galeri Hotel</h1>
 
-        @livewire('card.fasilitas')
+        @livewire('card.galeri')
 
     </div>
     <div class="pt-10">

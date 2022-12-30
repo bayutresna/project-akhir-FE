@@ -2,6 +2,58 @@
 
     Alpine.data("skadi", () => ({
 
+        tipe: [],
+        tipekamar:[],
+
+        fasilitas:[],
+        fasilitases:[],
+
+
+        kamar: {id_tipe_kamar:'',
+                nama:'',
+                harga: '',
+                jumlah_kamar: '',
+                kapasitas: '',
+                deskripsi: '',
+                fasilitas: []
+                },
+        files:'',
+        
+
+        async getfasilitas(){
+            const respon = fetch('http://127.0.0.1:8000/api/fasilitas')
+            .then(async (response) => {
+            this.fasilitases = await response.json()
+            this.fasilitas = this.fasilitases.data
+            });
+        },
+
+        async gettipekamar(){
+            const respon = fetch('http://127.0.0.1:8000/api/tipekamar')
+            .then(async (response) => {
+            this.tipekamar = await response.json()
+            this.tipe = this.tipekamar.data
+            });
+        },
+
+        async add(){
+            let file = this.files[0]
+            let fd = new FormData()
+            fd.append('id_tipe_kamar',this.kamar.id_tipe_kamar)
+            fd.append('nama',this.kamar.nama)
+            fd.append('harga',this.kamar.harga)
+            fd.append('jumlah_kamar',this.kamar.jumlah_kamar)
+            fd.append('kapasitas',this.kamar.kapasitas)
+            fd.append('deskripsi',this.kamar.deskripsi)
+            fd.append('fasilitas',this.kamar.fasilitas)
+            fd.append('foto',file)
+            const respon = await fetch('http://127.0.0.1:8000/api/kamar',{
+            method: 'POST',
+            body: fd
+            })
+            window.location.replace('http://127.0.0.1:8001/admin/kamar')
+
+        },
         async logout(){
             await localStorage.clear()
             window.location.replace('http://127.0.0.1:8001/')
@@ -10,129 +62,7 @@
 
 </script>
 
-<style>
-    /* Compiled dark classes from Tailwind */
-    .dark .dark\:divide-gray-700 > :not([hidden]) ~ :not([hidden]) {
-      border-color: rgba(55, 65, 81);
-    }
-    .dark .dark\:bg-gray-50 {
-      background-color: rgba(249, 250, 251);
-    }
-    .dark .dark\:bg-gray-100 {
-      background-color: rgba(243, 244, 246);
-    }
-    .dark .dark\:bg-gray-600 {
-      background-color: rgba(75, 85, 99);
-    }
-    .dark .dark\:bg-gray-700 {
-      background-color: rgba(55, 65, 81);
-    }
-    .dark .dark\:bg-gray-800 {
-      background-color: rgba(31, 41, 55);
-    }
-    .dark .dark\:bg-gray-900 {
-      background-color: rgba(17, 24, 39);
-    }
-    .dark .dark\:bg-red-700 {
-      background-color: rgba(185, 28, 28);
-    }
-    .dark .dark\:bg-green-700 {
-      background-color: rgba(4, 120, 87);
-    }
-    .dark .dark\:hover\:bg-gray-200:hover {
-      background-color: rgba(229, 231, 235);
-    }
-    .dark .dark\:hover\:bg-gray-600:hover {
-      background-color: rgba(75, 85, 99);
-    }
-    .dark .dark\:hover\:bg-gray-700:hover {
-      background-color: rgba(55, 65, 81);
-    }
-    .dark .dark\:hover\:bg-gray-900:hover {
-      background-color: rgba(17, 24, 39);
-    }
-    .dark .dark\:border-gray-100 {
-      border-color: rgba(243, 244, 246);
-    }
-    .dark .dark\:border-gray-400 {
-      border-color: rgba(156, 163, 175);
-    }
-    .dark .dark\:border-gray-500 {
-      border-color: rgba(107, 114, 128);
-    }
-    .dark .dark\:border-gray-600 {
-      border-color: rgba(75, 85, 99);
-    }
-    .dark .dark\:border-gray-700 {
-      border-color: rgba(55, 65, 81);
-    }
-    .dark .dark\:border-gray-900 {
-      border-color: rgba(17, 24, 39);
-    }
-    .dark .dark\:hover\:border-gray-800:hover {
-      border-color: rgba(31, 41, 55);
-    }
-    .dark .dark\:text-white {
-      color: rgba(255, 255, 255);
-    }
-    .dark .dark\:text-gray-50 {
-      color: rgba(249, 250, 251);
-    }
-    .dark .dark\:text-gray-100 {
-      color: rgba(243, 244, 246);
-    }
-    .dark .dark\:text-gray-200 {
-      color: rgba(229, 231, 235);
-    }
-    .dark .dark\:text-gray-400 {
-      color: rgba(156, 163, 175);
-    }
-    .dark .dark\:text-gray-500 {
-      color: rgba(107, 114, 128);
-    }
-    .dark .dark\:text-gray-700 {
-      color: rgba(55, 65, 81);
-    }
-    .dark .dark\:text-gray-800 {
-      color: rgba(31, 41, 55);
-    }
-    .dark .dark\:text-red-100 {
-      color: rgba(254, 226, 226);
-    }
-    .dark .dark\:text-green-100 {
-      color: rgba(209, 250, 229);
-    }
-    .dark .dark\:text-blue-400 {
-      color: rgba(96, 165, 250);
-    }
-    .dark .group:hover .dark\:group-hover\:text-gray-500 {
-      color: rgba(107, 114, 128);
-    }
-    .dark .group:focus .dark\:group-focus\:text-gray-700 {
-      color: rgba(55, 65, 81);
-    }
-    .dark .dark\:hover\:text-gray-100:hover {
-      color: rgba(243, 244, 246);
-    }
-    .dark .dark\:hover\:text-blue-500:hover {
-      color: rgba(59, 130, 246);
-    }
-
-    /* Custom style */
-    .header-right {
-        width: calc(100% - 3.5rem);
-    }
-    .sidebar:hover {
-        width: 16rem;
-    }
-    @media only screen and (min-width: 768px) {
-        .header-right {
-            width: calc(100% - 16rem);
-        }
-    }
-  </style>
-
-  <div x-data="skadi" class="">
+  <div x-data="skadi" x-init="gettipekamar(), getfasilitas()" class="">
       <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
 
         <!-- Header -->
@@ -184,7 +114,7 @@
               </li>
               <li>
                 <a href="{{route('admin.fasilitashotel')}}" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
-                  <span class="ml-2 text-sm tracking-wide truncate">Fasilitas</span>
+                  <span class="ml-2 text-sm tracking-wide truncate">Fasilitas Hotel</span>
                 </a>
               </li>
               <li>
@@ -207,12 +137,12 @@
             <button type="button"
             class="justify-right inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
             data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Tambah Foto
+            Tambah Kamar
             </button>
         </div>
       </div>
-    </div>
-    <div x-data="skadi" class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+
+    <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
     id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog relative w-auto pointer-events-none">
@@ -221,24 +151,61 @@
         <div
           class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
           <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLabel">
-            Tambah Foto
+            Tambah Kamar
           </h5>
           <button type="button"
             class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
             data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body relative p-4">
-            <input type="file" class="upload">
+            <form x-on:submit.prevent="add()">
+            <div>
+                <input x-model="kamar.nama" type="text" class="focus:outline-none border-b w-full pb-2 border-sky-400 placeholder-gray-500"  placeholder="Nama Kamar"/>
+           </div>
+            <div>
+                <input x-model="kamar.harga" type="number" class="focus:outline-none border-b w-full pb-2 border-sky-400 placeholder-gray-500 my-8"  placeholder="Harga "/>
+           </div>
+            <div>
+           <input x-model="kamar.jumlah_kamar" type="number" class="focus:outline-none border-b w-full pb-2 border-sky-400 placeholder-gray-500 mb-8"  placeholder="Jumlah Kamar "/>
+           </div>
+            <div>
+           <input x-model="kamar.kapasitas" type="number" class="focus:outline-none border-b w-full pb-2 border-sky-400 placeholder-gray-500 mb-8"  placeholder="Kapasitas "/>
+           </div>
+           <div>
+            <textarea x-model="kamar.deskripsi" type="number" class="focus:outline-none border-b w-full pb-2 border-sky-400 placeholder-gray-500 mb-8"  placeholder="Deskripsi "></textarea>
+            </div>
+           <div class="">
+            <label for=""> Tipe Kamar </label>
+              <select x-model="kamar.id_tipe_kamar" name="" id="">
+                <template x-for="t in tipe">
+                <option x-text="t.nama" :value="t.id"></option>
+                </template>
+              </select>
+           </div>
+           <br>
+           <div class="flex flex-col">
+            Fasilitas
+            <template x-for="f in fasilitas">
+                <div>    
+                <label x-text="f.nama" ></label>
+               <input x-model="kamar.fasilitas" type="checkbox" class="border-sky-400 " :value="f.id" />
+            </div>
+            </template>
+           </div>
+
+            <input x-on:change="files = Object.values($event.target.files)" type="file" class="upload">
         </div>
         <div
           class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
           <button type="button"
             class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
             data-bs-dismiss="modal">Close</button>
-          <button type="button"
-            class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Understood</button>
+          <button type="submit" 
+            class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Tambah Kamar</button>
         </div>
+    </form>
       </div>
     </div>
     </div>
+</div>
 

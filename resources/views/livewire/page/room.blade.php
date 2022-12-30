@@ -1,7 +1,13 @@
 <div>
     @livewire('nav.navbar')
-    @livewire('carousel.carousel')
-    @livewire('card.hotelcard')
+    <div>
+        @livewire('carousel.carousel')
+    </div>
+    
+    <div class="py-[30px]">
+        @livewire('card.hotelcard')
+    </div>
+    
     @livewire('footer.footer')
 
 </div>
