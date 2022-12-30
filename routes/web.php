@@ -10,6 +10,7 @@ use App\Http\Livewire\Admin\Update\Galeriupdate;
 use App\Http\Livewire\Admin\Update\Kamarupdate;
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Register;
+use App\Http\Livewire\Detail\Roomdetail;
 use App\Http\Livewire\Page\Fasilitas;
 use App\Http\Livewire\Page\Galeri;
 use App\Http\Livewire\Page\Home;
@@ -36,6 +37,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', Home::class)->name('home');
 Route::get('/room', Room::class)->name('room');
+Route::get('/room/detail/{id}', Roomdetail::class)->name('room.detail');
 Route::get('/fasilitas', Fasilitas::class)->name('fasilitas');
 Route::get('/galeri', Galeri::class)->name('galeri');
 

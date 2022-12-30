@@ -21,7 +21,7 @@
                 },
         listfasilitas: [],
         files:'',
-        
+
         async show(id){
             const respon = fetch(`http://127.0.0.1:8000/api/kamar/${id}/show`)
             .then(async (response) => {
@@ -49,6 +49,22 @@
         async update(id){
             let file = this.files[0]
             let fd = new FormData()
+            if(file != null){
+                fd.append('id_tipe_kamar',this.kamar.id_tipe_kamar)
+                fd.append('nama',this.kamar.nama)
+                fd.append('harga',this.kamar.harga)
+                fd.append('jumlah_kamar',this.kamar.jumlah_kamar)
+                fd.append('kapasitas',this.kamar.kapasitas)
+                fd.append('deskripsi',this.kamar.deskripsi)
+                fd.append('fasilitas',this.listfasilitas)
+                fd.append('foto',file)
+                const respon = await fetch(`http://127.0.0.1:8000/api/kamar/edit/${id}`,{
+                method: 'POST',
+                body: fd
+                })
+                // window.location.replace('http://127.0.0.1:8001/admin/kamar')
+
+            }
             fd.append('id_tipe_kamar',this.kamar.id_tipe_kamar)
             fd.append('nama',this.kamar.nama)
             fd.append('harga',this.kamar.harga)
@@ -56,12 +72,11 @@
             fd.append('kapasitas',this.kamar.kapasitas)
             fd.append('deskripsi',this.kamar.deskripsi)
             fd.append('fasilitas',this.listfasilitas)
-            fd.append('foto',file)
             const respon = await fetch(`http://127.0.0.1:8000/api/kamar/edit/${id}`,{
             method: 'POST',
             body: fd
             })
-            window.location.replace('http://127.0.0.1:8001/admin/kamar')
+            // window.location.replace('http://127.0.0.1:8001/admin/kamar')
 
         }
 
@@ -103,7 +118,7 @@
    <div class="flex flex-col">
     Fasilitas
     <template x-for="f in fasilitas">
-        <div>    
+        <div>
             <label x-text="f.nama" ></label>
             <input x-model="listfasilitas" type="checkbox" class="border-sky-400 " :value="f.id" />
         </div>
@@ -115,7 +130,7 @@
 <div
   class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
 
-  <button type="submit" 
+  <button type="submit"
     class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Update Kamar</button>
 </div>
 </form>
