@@ -3,6 +3,41 @@
 
         fasilitas: {nama:'', deskripsi:'', foto:''},
         files: '',
+        token: '',
+        show: false,
+
+        user:'',
+        users:'',
+
+        ceklogin()
+        {
+            let token = localStorage.getItem('token')
+            this.token = token
+            if(this.token == null){
+                window.location.replace('http://127.0.0.1:8001/login')
+            }
+        
+            fetch('http://127.0.0.1:8000/api/me',{
+                method: 'GET',
+                headers: {
+                'Authorization': `Bearer ${this.token}`
+                }
+            })
+            .then(async (response) => {
+                this.users = await response.json()
+                this.user = this.users.data
+            
+                if(this.user.id_role != 1){
+                    window.location.replace('http://127.0.0.1:8001/')
+                }
+            
+                if(this.user.id_role == 1){
+                    this.show = true
+                }
+            })
+        
+        },
+
         async add(){
             let file = this.files[0]
             let fd = new FormData()
@@ -11,8 +46,12 @@
             fd.append('deskripsi',this.fasilitas.deskripsi)
             const respon = await fetch('http://127.0.0.1:8000/api/fasilitashotel',{
             method: 'POST',
+            headers:{
+                'Authorization' : `Bearer ${this.token}`
+            },
             body: fd
             })
+
             window.location.replace('http://127.0.0.1:8001/admin/fasilitashotel')
         },
         async logout(){
@@ -24,7 +63,7 @@
 </script>
 
 
-<div x-data="skadi">
+<div x-data="skadi" x-init='ceklogin()' x-show='show'>
     <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
         <!-- Header -->
         <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
@@ -76,6 +115,11 @@
               <li>
                 <a href="{{route('admin.fasilitashotel')}}" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
                   <span class="ml-2 text-sm tracking-wide truncate">Fasilitas Hotel</span>
+                </a>
+              </li>
+              <li>
+                <a href="{{route('admin.fasilitaskamar')}}" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+                  <span class="ml-2 text-sm tracking-wide truncate">Fasilitas Kamar</span>
                 </a>
               </li>
               <li>

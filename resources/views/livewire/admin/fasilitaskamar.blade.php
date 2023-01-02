@@ -1,25 +1,9 @@
 <script>
-
     Alpine.data("skadi", () => ({
 
-        tipe: [],
-        tipekamar:[],
-
-        fasilitas:[],
-        fasilitases:[],
-
-
-        kamar: {id_tipe_kamar:'',
-                nama:'',
-                harga: '',
-                jumlah_kamar: '',
-                kapasitas: '',
-                deskripsi: '',
-                fasilitas: []
-                },
-        files:'',
+        fasilitas: {nama:'', foto:''},
+        files: '',
         token: '',
-
         show: false,
 
         user:'',
@@ -54,42 +38,17 @@
         
         },
 
-        async getfasilitas(){
-            const respon = fetch('http://127.0.0.1:8000/api/fasilitas')
-            .then(async (response) => {
-                this.fasilitases = await response.json()
-                this.fasilitas = this.fasilitases.data
-            });
-        },
-
-        async gettipekamar(){
-            const respon = fetch('http://127.0.0.1:8000/api/tipekamar')
-            .then(async (response) => {
-                this.tipekamar = await response.json()
-                this.tipe = this.tipekamar.data
-            });
-        },
-
         async add(){
             let file = this.files[0]
             let fd = new FormData()
-            fd.append('id_tipe_kamar',this.kamar.id_tipe_kamar)
-            fd.append('nama',this.kamar.nama)
-            fd.append('harga',this.kamar.harga)
-            fd.append('jumlah_kamar',this.kamar.jumlah_kamar)
-            fd.append('kapasitas',this.kamar.kapasitas)
-            fd.append('deskripsi',this.kamar.deskripsi)
-            fd.append('fasilitas',this.kamar.fasilitas)
-            fd.append('foto',file)
-            const respon = await fetch('http://127.0.0.1:8000/api/kamar',{
-                method: 'POST',
-                headers:{
-                    'Authorization' : `Bearer ${this.token}`
-                },
-                body: fd
+            fd.append('logo',file)
+            fd.append('nama',this.fasilitas.nama)
+            const respon = await fetch('http://127.0.0.1:8000/api/fasilitas',{
+            method: 'POST',
+            headers :{'Authorization' : `Bearer ${this.token}`},
+            body: fd
             })
-            window.location.replace('http://127.0.0.1:8001/admin/kamar')
-
+            window.location.replace('http://127.0.0.1:8001/admin/fasilitaskamar')
         },
         async logout(){
             await localStorage.clear()
@@ -99,9 +58,9 @@
 
 </script>
 
-  <div x-data="skadi" x-show='show' x-init="ceklogin(),gettipekamar(), getfasilitas()" class="">
-      <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
 
+<div x-data="skadi" x-show='show' x-init='ceklogin()'>
+    <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
         <!-- Header -->
         <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
           <div class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 bg-blue-800 dark:bg-gray-800 border-none">
@@ -173,82 +132,79 @@
           </div>
         </div>
         <!-- ./Sidebar -->
-
+        {{-- modal trigger --}}
         <div class="h-full ml-14 mt-14 mb-10 md:ml-64">
-            @livewire('admin.data.kamar')
+            @livewire('admin.data.fasilitaskamar')
             <button type="button"
             class="justify-right inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-            data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Tambah Kamar
+            data-bs-toggle="modal" data-bs-target="#add">
+            Tambah Fasilitas Hotel
             </button>
         </div>
-      </div>
+    </div>
 
+
+    {{-- modal --}}
     <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
-    id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        id="add" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog relative w-auto pointer-events-none">
-      <div
-        class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-        <div
-          class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+      <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+        <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
           <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLabel">
-            Tambah Kamar
+            Tambah Fasilitas Kamar
           </h5>
           <button type="button"
             class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
             data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+
         <div class="modal-body relative p-4">
-            <form x-on:submit.prevent="add()">
-            <div>
-                <input x-model="kamar.nama" type="text" class="focus:outline-none border-b w-full pb-2 border-sky-400 placeholder-gray-500"  placeholder="Nama Kamar"/>
-           </div>
-            <div>
-                <input x-model="kamar.harga" type="number" class="focus:outline-none border-b w-full pb-2 border-sky-400 placeholder-gray-500 my-8"  placeholder="Harga "/>
-           </div>
-            <div>
-           <input x-model="kamar.jumlah_kamar" type="number" class="focus:outline-none border-b w-full pb-2 border-sky-400 placeholder-gray-500 mb-8"  placeholder="Jumlah Kamar "/>
-           </div>
-            <div>
-           <input x-model="kamar.kapasitas" type="number" class="focus:outline-none border-b w-full pb-2 border-sky-400 placeholder-gray-500 mb-8"  placeholder="Kapasitas "/>
-           </div>
-           <div>
-            <textarea x-model="kamar.deskripsi" type="number" class="focus:outline-none border-b w-full pb-2 border-sky-400 placeholder-gray-500 mb-8"  placeholder="Deskripsi "></textarea>
-            </div>
-           <div class="">
-            <label for=""> Tipe Kamar </label>
-              <select x-model="kamar.id_tipe_kamar" name="" id="">
-                <option selected  value="none">Pilih Salah Satu</option>
-                <template x-for="t in tipe">
-                <option x-text="t.nama" :value="t.id"></option>
-                </template>
-              </select>
-           </div>
-           <br>
-           <div class="flex flex-col">
-            Fasilitas
-            <template x-for="f in fasilitas">
-                <div>
-                <label x-text="f.nama" ></label>
-               <input x-model="kamar.fasilitas" type="checkbox" class="border-sky-400 " :value="f.id" />
-            </div>
-            </template>
-           </div>
+            {{-- start input nama --}}
+            <div class="flex justify-center">
+                <div class="mb-3 xl:w-96">
+                  <label for="exampleText0" class="form-label inline-block mb-2 text-gray-700"
+                    >Nama</label>
+                  <input
+                    type="text"
+                    class="
+                      form-control
+                      block
+                      w-full
+                      px-3
+                      py-1.5
+                      text-base
+                      font-normal
+                      text-gray-700
+                      bg-white bg-clip-padding
+                      border border-solid border-gray-300
+                      rounded
+                      transition
+                      ease-in-out
+                      m-0
+                      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    id="nama"
+                    x-model="fasilitas.nama"
+                    placeholder="Nama Fasilitas"
+                  />
+                </div>
+              </div>
+              {{-- end input nama --}}
 
             <input x-on:change="files = Object.values($event.target.files)" type="file" class="upload">
         </div>
-        <div
-          class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+        {{-- end modal body --}}
+        <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
           <button type="button"
             class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
             data-bs-dismiss="modal">Close</button>
-          <button type="submit"
-            class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Tambah Kamar</button>
+          <button type="button" x-on:click="add()"
+            class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Tambah Fasilitas Hotel</button>
         </div>
-    </form>
+        {{-- end modal footer --}}
       </div>
     </div>
-    </div>
 </div>
+{{-- end modal --}}
 
+</div>

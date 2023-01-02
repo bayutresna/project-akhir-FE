@@ -7,9 +7,9 @@
 
     //     let token = localStorage.getItem('token');
     //     await fetch('http://127.0.0.1:8000/api/logout',[
-    //         header:{'Authorization' : token},    
+    //         header:{'Authorization' : token},
     //         method: 'POST',
-            
+
     //     ]);
 
     // },
@@ -17,19 +17,22 @@
     async logout(){
         const token = localStorage.getItem('token')
         const respon = await fetch('http://127.0.0.1:8000/api/logout',{
-        header:{'Authorization' : token},    
+        header:{'Authorization' : token},
         method: 'POST'
         })
         localStorage.clear()
         window.location.replace('http://127.0.0.1:8001/')
     },
 
-    ceklogin(){
-    const token = localStorage.getItem('token')
-    this.islogin = token ? true : false
+    ceklogin()
+    {
+
+        const token = localStorage.getItem('token')
+        this.islogin = token ? true : false
+
     }
 
-        }))
+    }))
 
 </script>
 <header class="bg-white" x-init="ceklogin()" x-data="skadi">
@@ -53,13 +56,16 @@
         <a class="transform text-gray-800 hover:text-yellow-400" href="{{route('fasilitas')}}">Fasilitas</a>
         <a class="transform text-gray-800 hover:text-yellow-400" href="{{route('galeri')}}">Gallery</a>
         <template x-if="islogin">
+            <a href="{{route('history')}}" class="transform text-gray-800 hover:text-yellow-400" >Riwayat Reservasi</a>
+        </template>
+        <template x-if="islogin">
             <button x-on:click="logout()" class="transform text-gray-800 hover:text-yellow-400" >Logout</button>
         </template>
         <template x-if="!islogin">
             <a href="{{route('login')}}" class="transform text-gray-800 hover:text-yellow-400" >Login</a>
         </template>
 
-        <a class="rounded-2xl border bg-gradient-to-b from-yellow-300 to-yellow-500 px-4 py-2 text-center text-white hover:shadow-xl" href="#">Book Now</a>
+        <a class="rounded-2xl border bg-gradient-to-b from-yellow-300 to-yellow-500 px-4 py-2 text-center text-white hover:shadow-xl" href="{{route('booking')}}">Book Now</a>
       </div>
     </nav>
   </header>

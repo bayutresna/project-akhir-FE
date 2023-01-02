@@ -2,53 +2,50 @@
 
     Alpine.data("skadi", () => ({
 
-        tipe: [],
-        tipekamar:[],
-
-        fasilitas:[],
-        fasilitases:[],
-
         rooms:[],
         room:[],
 
-
-        kamar: {id_tipe_kamar:'',
-                nama:'',
-                harga: '',
-                jumlah_kamar: '',
-                kapasitas: '',
-                deskripsi: '',
-                },
-        listfasilitas: [],
-        files:'',
-
-        async show(id){
-            const respon = fetch(`http://127.0.0.1:8000/api/kamar/${id}/show`)
+        async get(){
+            const respon = fetch(`http://127.0.0.1:8000/api/kamar`)
             .then(async (response) => {
-            this.rooms = await response.json()
-            this.kamar = this.rooms.data
+                this.rooms = await response.json()
+                this.room = this.rooms.data
             });
-        },
+        }
 
-        // async getfasilitas(){
-        //     const respon = fetch('http://127.0.0.1:8000/api/fasilitas')
-        //     .then(async (response) => {
-        //     this.fasilitases = await response.json()
-        //     this.fasilitas = this.fasilitases.data
-        //     });
-        // },
-
-        // async gettipekamar(){
-        //     const respon = fetch('http://127.0.0.1:8000/api/tipekamar')
-        //     .then(async (response) => {
-        //     this.tipekamar = await response.json()
-        //     this.tipe = this.tipekamar.data
-        //     });
-        // },
-            }))
+    }))
 
 </script>
 
-<div>
+
+
+<div x-data="skadi" x-init="get()">
+
+        <div class="flex flex-wrap gap-9">
+            <template x-for="r in room">
+                <div class=" max-w-sm rounded overflow-hidden shadow-lg">
+                    <img class="w-full" :src="r.foto" >
+                    <div class="px-6 py-4">
+                      <div x-text="r.nama" class="font-bold text-xl mb-2"></div>
+                      <p x-text="r.deskripsi" class="text-gray-700 text-base"></p>
+                      <p class="text-gray-700 text-base">Rp. <span x-text="r.harga"></span></p>
+                      <p class="text-gray-700 text-base">Jumlah Kamar : <span x-text="r.jumlah_kamar"></span></p>
+                    </div>
+
+                    <div class="px-6 pt-4 pb-2">
+                      <p class="text-gray-700 text-base"> Daftar Fasilitas</p>
+                        <template x-for="fasilitas in r.fasilitas">
+                            <div class="flex">
+                           <img style="width: 20px; height:20px;" :src="fasilitas.logo" alt="">
+                           <span x-text="fasilitas.nama" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"></span>
+                        </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+
 
 </div>
+

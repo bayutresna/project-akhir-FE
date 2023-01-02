@@ -69,7 +69,12 @@
         }
         }))
 </script>
-<div x-data="skadi" class="max-w-md px-3 rounded-lg mx-auto overflow-hidden mt-4 bg-white">
+
+<div x-data="skadi">
+
+@livewire('nav.navbar')
+
+<div  class="max-w-md px-3 rounded-lg mx-auto overflow-hidden mt-4 bg-white">
 <form x-on:submit.prevent="register()">
    	<div class="flex flex-col mt-8 mb-5">
    		<div class="relative">
@@ -101,6 +106,7 @@
         <div class="relative">
             <label for="tanggal_lahir"> Tanggal Lahir</label>
             <input type="date" x-model="payload.tanggal_lahir" name="tanggal_lahir" class="w-full px-4 mb-3 rounded border py-2">
+
         </div>
 
         <div class="relative">
@@ -124,3 +130,5 @@
            </div>
    	</div>
    </div>
+   @livewire('footer.footer')
+</div>

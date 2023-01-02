@@ -13,7 +13,7 @@
 
         async show(id){
             const data = new FormData()
-            const respon = fetch(`http://127.0.0.1:8000/api/fasilitashotel/${id}/show`,{
+            const respon = fetch(`http://127.0.0.1:8000/api/fasilitas/${id}/show`,{
                 method:'GET',
                 headers:{'Authorization' : `Bearer${this.token}`}
             })
@@ -28,10 +28,9 @@
             // untuk yang update tanpa foto
             if(file != null){
                 let fd = new FormData()
-                fd.append('foto',file)
+                fd.append('logo',file)
                 fd.append('nama',this.fasilitas.nama)
-                fd.append('deskripsi',this.fasilitas.deskripsi)
-                const respon = await fetch(`http://127.0.0.1:8000/api/fasilitashotel/edit/${id}`,{
+                const respon = await fetch(`http://127.0.0.1:8000/api/fasilitas/edit/${id}`,{
                 method: 'POST',
                 headers:{
                     'Authorization' : `Bearer ${this.token}`
@@ -39,14 +38,13 @@
                 body: fd
                 })
 
-                window.location.replace('http://127.0.0.1:8001/admin/fasilitashotel')
+                window.location.replace('http://127.0.0.1:8001/admin/fasilitaskamar')
             }
             // update dengan foto
             let fd = new FormData()
             // fd.append('foto',file)
             fd.append('nama',this.fasilitas.nama)
-            fd.append('deskripsi',this.fasilitas.deskripsi)
-            const respon = await fetch(`http://127.0.0.1:8000/api/fasilitashotel/edit/${id}`,{
+            const respon = await fetch(`http://127.0.0.1:8000/api/fasilitas/edit/${id}`,{
             method: 'POST',
             headers:{
                 'Authorization' : `Bearer ${this.token}`
@@ -54,7 +52,7 @@
             body: fd
             })
 
-            window.location.replace('http://127.0.0.1:8001/admin/fasilitashotel')
+            window.location.replace('http://127.0.0.1:8001/admin/fasilitas')
         },
     }))
 </script>
@@ -165,37 +163,7 @@
   </div>
   {{-- end input nama --}}
 
-   {{-- start input deskripsi --}}
-<div class="flex justify-center">
-    <div class="mb-3 xl:w-96">
-      <label for="" class="form-label inline-block mb-2 text-gray-700"
-        >Deskripsi</label>
-      <input
-        type="text"
-        class="
-          form-control
-          block
-          w-full
-          px-3
-          py-1.5
-          text-base
-          font-normal
-          text-gray-700
-          bg-white bg-clip-padding
-          border border-solid border-gray-300
-          rounded
-          transition
-          ease-in-out
-          m-0
-          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-        id="deskripsi"
-        x-model="fasilitas.deskripsi"
-        placeholder="Deskripsi Fasilitas"
-      />
-    </div>
-  </div>
-  {{-- end input deskripsi --}}
-
+{{-- input logo --}}
 <div class="flex justify-center">
     <div class="mb-3 w-96">
       <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Default file input example</label>
@@ -217,7 +185,7 @@
       focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile">
     </div>
   </div>
-
+{{-- input logo --}}
   <div class="flex justify-center">
 
 <button class="justify-right inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"

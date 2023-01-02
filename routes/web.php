@@ -2,17 +2,21 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Livewire\Admin\Dashboard;
+use App\Http\Livewire\Admin\Fasilitaskamar;
 use App\Http\Livewire\Admin\galeriadmin;
 use App\Http\Livewire\Admin\Fasilitashotel;
 use App\Http\Livewire\Admin\Kamar;
 use App\Http\Livewire\Admin\Update\Fasilitashotelupdate;
+use App\Http\Livewire\Admin\Update\Fasilitaskamarupdate;
 use App\Http\Livewire\Admin\Update\Galeriupdate;
 use App\Http\Livewire\Admin\Update\Kamarupdate;
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Detail\Roomdetail;
+use App\Http\Livewire\Page\Booking;
 use App\Http\Livewire\Page\Fasilitas;
 use App\Http\Livewire\Page\Galeri;
+use App\Http\Livewire\Page\Historybookuser;
 use App\Http\Livewire\Page\Home;
 use App\Http\Livewire\Page\Room;
 use Illuminate\Support\Facades\Route;
@@ -37,10 +41,12 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', Home::class)->name('home');
 Route::get('/room', Room::class)->name('room');
-Route::get('/room/detail/{id}', Roomdetail::class)->name('room.detail');
+// Route::get('/room/detail/{kamar_id}', Roomdetail::class)->name('room.detail');
 Route::get('/fasilitas', Fasilitas::class)->name('fasilitas');
 Route::get('/galeri', Galeri::class)->name('galeri');
 
+Route::get('/book', Booking::class)->name('booking');
+Route::get('/historybook', Historybookuser::class)->name('history');
 
 Route::get('admin', Dashboard::class)->name('admin');
 Route::get('admin/kamar', Kamar::class)->name('admin.kamar');
@@ -49,6 +55,9 @@ Route::get('admin/galeri', galeriadmin::class)->name('admin.galeri');
 Route::get('admin/galeri/update/{picture_id}', Galeriupdate::class)->name('admin.galeriupdate');
 Route::get('admin/fasilitashotel', Fasilitashotel::class)->name('admin.fasilitashotel');
 Route::get('admin/fasilitashotel/update/{fasilitas_id}', Fasilitashotelupdate::class)->name('admin.fasilitashotelupdate');
+
+Route::get('admin/fasilitaskamar', Fasilitaskamar::class)->name('admin.fasilitaskamar');
+Route::get('admin/fasilitaskamar/update/{fasilitas_id}', Fasilitaskamarupdate::class)->name('admin.fasilitaskamarupdate');
 
 
 

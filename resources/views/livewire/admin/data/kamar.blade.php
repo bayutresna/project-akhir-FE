@@ -5,6 +5,12 @@
     rooms: [],
     toggle: '0',
     respon: '',
+    token: '',
+
+    gettoken(){
+        let token = localStorage.getItem('token')
+        this.token = token
+    },
     getroom(){
         const respon = fetch('http://127.0.0.1:8000/api/kamar')
         .then(async (response) => {
@@ -14,7 +20,10 @@
     },
     deletekamar(id){
         const respon = fetch(`http://127.0.0.1:8000/api/kamar/delete/${id}`,{
-            method: 'POST'
+            method: 'POST',
+            headers:{
+                'Authorization' : `Bearer ${this.token}`
+            }
         })
         .then(async (response) => {
             window.location.replace('http://127.0.0.1:8001/admin/kamar')
@@ -24,7 +33,7 @@
 </script>
 <div
 x-data ="skadi"
-x-init = "getroom()">
+x-init = "getroom(), gettoken()">
 <table class="border-collapse w-full">
     <thead>
         <tr>
